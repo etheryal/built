@@ -627,7 +627,30 @@ fn write_dependencies(manifest_location: &path::Path, w: &mut fs::File) -> io::R
 
 #[cfg(feature = "chrono")]
 fn write_time(w: &mut fs::File) -> io::Result<()> {
+    use chrono::Datelike;
+    
     let now = chrono::offset::Utc::now();
+    write_variable!(
+        w,
+        "BUILT_TIME_YEAR",
+        "i32",
+        now.year(),
+        "The build time year, UTC."
+    );
+    write_variable!(
+        w,
+        "BUILT_TIME_MONTH",
+        "u32",
+        now.month(),
+        "The build time month, UTC."
+    );
+    write_variable!(
+        w,
+        "BUILT_TIME_DAY",
+        "u32",
+        now.day(),
+        "The build time day, UTC."
+    );
     write_str_variable!(
         w,
         "BUILT_TIME_UTC",
